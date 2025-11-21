@@ -1,3 +1,5 @@
+//src/components/SceneController.jsx
+
 import React, { useEffect, useState, useRef } from "react";
 import SkySVG from "./SkySVG";
 import SandLine from "./SandLine";
