@@ -23,27 +23,18 @@ export default function Scene2D() {
 
     setNextIdx(newIdx);
 
-    // Real cinematic cross-fade
-    gsap.fromTo(nextRef.current, 
-      { opacity: 0 },
-      { 
-        opacity: 1, 
-        duration: 1.2, 
-        ease: "power2.inOut",
-        onComplete: () => {
-          setCurrentIdx(newIdx);
-          setNextIdx(newIdx);
-          isTransitioning.current = false;
-        }
+    gsap.fromTo(nextRef.current, { opacity: 0 }, {
+      opacity: 1, duration: 1.4, ease: "power2.inOut",
+      onComplete: () => {
+        setCurrentIdx(newIdx);
+        setNextIdx(newIdx);
+        isTransitioning.current = false;
       }
-    );
+    });
 
-    // Dispatch new scene during fade (lights turn on perfectly)
     setTimeout(() => {
-      window.dispatchEvent(new CustomEvent("scene-change", {
-        detail: { scene: SCENES[newIdx] }
-      }));
-    }, 300);
+      window.dispatchEvent(new CustomEvent("scene-change", { detail: { scene: SCENES[newIdx] } }));
+    }, 400);
   };
 
   const goNext = () => transitionTo("next");
@@ -58,47 +49,31 @@ export default function Scene2D() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [currentIdx]);
 
-  // Initial scene
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("scene-change", {
-      detail: { scene: SCENES[currentIdx] }
-    }));
+    window.dispatchEvent(new CustomEvent("scene-change", { detail: { scene: SCENES[currentIdx] } }));
   }, []);
 
   return (
-    <div className="scene-container" style={{ position: "relative", cursor: "ns-resize" }}>
-      {/* CURRENT SCENE (always visible) */}
-      <div 
-        ref={currentRef}
-        style={{ 
-          position: "absolute", 
-          inset: 0, 
-          opacity: currentIdx === nextIdx ? 1 : 1  // stays solid
-        }}
-      >
+    <div className="scene-container" style={{ position: "relative", cursor: "ns-resize", overflow: "hidden" }}>
+      {/* CURRENT SCENE — SKY FIRST, SEA SECOND */}
+      <div ref={currentRef} style={{ position: "absolute", inset: 0 }}>
         <SkySVG initialScene={SCENES[currentIdx]} />
         <SeaScene />
       </div>
 
-      {/* NEXT SCENE (fades in on top) */}
+      {/* NEXT SCENE — SAME ORDER */}
       {currentIdx !== nextIdx && (
-        <div 
-          ref={nextRef}
-          style={{ 
-            position: "absolute", 
-            inset: 0, 
-            opacity: 0 
-          }}
-        >
+        <div ref={nextRef} style={{ position: "absolute", inset: 0, opacity: 0 }}>
           <SkySVG initialScene={SCENES[nextIdx]} />
           <SeaScene />
         </div>
       )}
 
-      <div className="hud">
-        <div className="hud-inner">
-          <strong>{SCENES[currentIdx].toUpperCase()}</strong>
-          <div className="hint">Scroll = pure cinematic time travel ✨</div>
+      {/* HUD — nice and small again */}
+      <div style={{ position: "absolute", left: 18, bottom: 20, zIndex: 50, pointerEvents: "none" }}>
+        <div style={{ background: "rgba(6,8,12,0.7)", padding: "10px 16px", borderRadius: "10px", boxShadow: "0 8px 30px rgba(0,0,0,0.6)" }}>
+          <strong style={{ fontSize: "16px", display: "block" }}>{SCENES[currentIdx].toUpperCase()}</strong>
+          <div style={{ fontSize: "13px", opacity: 0.9, marginTop: "4px" }}>Scroll slowly — cinematic time travel ✨</div>
         </div>
       </div>
     </div>

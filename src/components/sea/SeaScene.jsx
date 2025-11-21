@@ -1,9 +1,9 @@
 // src/components/sea/SeaScene.jsx
-// This file keeps the old name for backward compatibility
 import React from "react";
 import SeaBackground from "./SeaBackground";
 import Waves from "./Waves";
 import Shimmer from "./Shimmer";
+import DistantBoats from "./DistantBoats";
 import Sailboat from "./ships/Sailboat";
 import Steamship from "./ships/Steamship";
 import Yacht from "./ships/Yacht";
@@ -11,8 +11,6 @@ import FishingBoat from "./ships/FishingBoat";
 import PirateShip from "./ships/PirateShip";
 import Tugboat from "./ships/Tugboat";
 import Speedboat from "./ships/Speedboat";
-// import CargoShip from "./ships/CargoShip";
-// import CruiseLiner from "./ships/CruiseLiner";
 import GhostShip from "./ships/GhostShip";
 import ShipStoryOverlay from "./ships/ShipStoryOverlay";
 
@@ -21,7 +19,7 @@ export default function SeaScene() {
     <svg
       className="sand-svg"
       viewBox="0 0 1400 200"
-      preserveAspectRatio="xMidYMax meet"
+      preserveAspectRatio="xMidYMax meet" 
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
@@ -42,18 +40,16 @@ export default function SeaScene() {
       <SeaBackground />
       <Waves />
       <Shimmer />
+      <DistantBoats />          {/* ← distant fleet on horizon */}
 
-      {/* Ships */}
       <g id="ships" pointerEvents="all">
         <Sailboat />
         <Steamship />
         <Yacht />
-        {/* <CargoShip /> */}
         <FishingBoat />
         <PirateShip />
         <Tugboat />
         <Speedboat />
-        {/* <CruiseLiner /> */}
         <GhostShip />
       </g>
 
@@ -61,8 +57,3 @@ export default function SeaScene() {
     </svg>
   );
 }
-
-// Re-export with old name so nothing breaks
-// In your App.jsx you still do: import SandLine from "./components/SandLine";
-// → just rename the file below or create a barrel:
-// export { default as SandLine } from "./SeaScene";
