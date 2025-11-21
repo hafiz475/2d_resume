@@ -32,25 +32,24 @@ body,
   display: block;
 }
 
-/* grade overlay uses mix-blend-mode */
-.sky-svg > rect[fill^="url(#gradeGrad)"] {
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-
-/* sand */
+/* sand-svg reused as sea */
 .sand-svg {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 48vh;
-  min-height: 240px;
+  height: 34vh;
+  min-height: 160px;
   pointer-events: none;
   margin-bottom: -2px;
 }
+@media (max-width: 720px) {
+  .sand-svg {
+    height: 30vh;
+  }
+}
 
-/* top-right indicator */
+/* HUD */
 .top-right-indicator {
   position: absolute;
   top: 18px;
@@ -65,7 +64,6 @@ body,
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
 }
 
-/* HUD */
 .hud {
   position: absolute;
   left: 18px;
@@ -90,44 +88,38 @@ body,
   margin-top: 6px;
 }
 
-/* cloud softness + transform fixes */
+/* clouds */
 .cloud-layer {
   transform-box: fill-box;
   transform-origin: center;
 }
-.cloud-layer .cloud ellipse {
+.cloud-layer ellipse {
   filter: blur(0.6px);
 }
 
-/* shimmer specifics */
-#shimmerGroup rect {
-  mix-blend-mode: screen;
-  filter: blur(0.2px);
-}
-
-/* waves styling */
+/* waves */
 #waves-layer path {
   pointer-events: none;
   stroke-linecap: round;
 }
 
-/* footprints style */
-#footprints-layer ellipse {
-  transition: transform 0.2s;
+/* ship info overlay (created dynamically but provide defaults) */
+.ship-info-overlay {
+  font-family: Inter, system-ui;
 }
 
-/* birds silhouette tuning */
-svg g > path {
-  shape-rendering: geometricPrecision;
+/* small touch: make ships clickable (pointer-events enabled for ships only) */
+#ships {
+  pointer-events: auto;
 }
 
-/* responsive */
+/* make sure overlay button looks good on mobile */
 @media (max-width: 720px) {
-  .hud-inner {
-    font-size: 13px;
-    padding: 6px 8px;
-  }
-  .sand-svg {
-    height: 36vh;
+  .ship-info-overlay {
+    left: 50%;
+    top: 12%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    max-width: 92vw;
   }
 }

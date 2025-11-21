@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import SkySVG from "../components/SkySVG";
-import SandLine from "../components/SandLine";
-// import SkySVG from "./components/SkySVG";
-// import SandLine from "./components/SandLine";
+import SkySVG from "./SkySVG";
+import SandLine from "./SandLine";
 
 const SCENES = ["afternoon","sunset","night","sunrise","cloudy","raining","storm","rainbow","winter","night2"];
 
