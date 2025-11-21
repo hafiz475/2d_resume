@@ -21,7 +21,7 @@ export default function SeaScene() {
     <svg
       className="sand-svg"
       viewBox="0 0 1400 200"
-      preserveAspectRatio="xMidYBottom meet"
+      preserveAspectRatio="xMidYMax meet"
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
