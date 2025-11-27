@@ -1,59 +1,166 @@
 // src/components/air/AeroplaneBig.jsx
+// AeroplaneBig.jsx
 import React, { useRef } from "react";
 import { usePlaneAnimation } from "./usePlanes";
 import { showSkyStory } from "./usePlanes";
-import gsap from "gsap";
 
-export default function AeroplaneBig() {
+export default function AeroplaneBig({ x = 0, y = 0, scale = 1 }) {
   const ref = useRef();
-  const bannerRef = useRef();  // For banner trail
+  const bannerRef = useRef();
 
   usePlaneAnimation(ref, "E");
 
-  // Sync banner to plane's x (trails behind)
-  React.useEffect(() => {
-    if (!ref.current || !bannerRef.current) return;
-    const tl = gsap.timeline({ repeat: -1 });
-    tl.set(bannerRef.current, { x: -60 })  // Start behind plane
-      .to(bannerRef.current, { 
-        x: "+=1960",  // Match plane's full glide
-        duration: 18,  // Sync to "E" type duration
-        ease: "power1.inOut" 
-      }, 0);  // Start at same time as plane
-  }, []);
-
   return (
-    <g ref={ref} style={{ cursor: "pointer" }} onClick={showSkyStory}>
-      <svg
-        height="157px"
-        width="157px"
-        viewBox="0 0 496.016 496.016"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Your full big plane SVG paths — unchanged */}
-        <path style={{ fill: "#DAE5E5" }} d="M64.816,246.474c0,26.4-36.8,18.4-46.4,18.4c-10.4,0.8-18.4-20.8-18.4-46.4s-0.8-50.4,8.8-50.4 C19.216,168.074,64.816,220.874,64.816,246.474z" />
-        {/* ... all other paths ... */}
-        <path style={{ fill: "#809391" }} d="M233.616,287.274c0.8,0,2.4-3.2,2.4-8c0,0,0,0,0-0.8h-4c0,0,0,0,0,0.8 C231.216,284.074,232.016,287.274,233.616,287.274z" />
-      </svg>
+    <g ref={ref} transform={`translate(${x}, ${y}) scale(${scale})`} style={{ cursor: "pointer" }} onClick={showSkyStory}>
+      {/* ============================= */}
+      {/*       BIG PLANE BODY          */}
+      {/* ============================= */}
 
-      {/* TOWED BANNER — Trails behind */}
+      <path
+        style={{ fill: "#DAE5E5" }}
+        d="M64.816,246.474c0,26.4-36.8,18.4-46.4,18.4c-10.4,0.8-18.4-20.8-18.4-46.4s-0.8-50.4,8.8-50.4 C19.216,168.074,64.816,220.874,64.816,246.474z"
+      />
+      <path
+        style={{ fill: "#C9D3D3" }}
+        d="M64.816,246.474c0,26.4-36.8,18.4-46.4,18.4c-10.4,0.8-18.4-20.8-18.4-46.4s-0.8-34.4,8.8-34.4 C19.216,183.274,64.816,220.874,64.816,246.474z"
+      />
+      <path
+        style={{ fill: "#BDC6C6" }}
+        d="M64.816,246.474c0,26.4-36.8,18.4-46.4,18.4c-10.4,0.8-18.4-20.8-18.4-46.4s23.2-7.2,32.8-7.2 C43.216,210.474,64.816,220.874,64.816,246.474z"
+      />
+      <path
+        style={{ fill: "#DAE5E5" }}
+        d="M496.016,261.674c0-14.4-11.2-27.2-27.2-32.8c-10.4-19.2-31.2-32.8-55.2-32.8 c-34.4,0-413.6,28-413.6,62.4s287.2,75.2,321.6,68.8c96.8-17.6,136-26.4,151.2-34.4 C486.416,287.274,496.016,275.274,496.016,261.674z"
+      />
+      <path
+        style={{ fill: "#C9D3D3" }}
+        d="M496.016,261.674c0-14.4-11.2-27.2-27.2-32.8c-10.4-19.2-100.8-8-124.8-8c-34.4,0-344,3.2-344,37.6 s287.2,75.2,321.6,68.8c96.8-17.6,136-26.4,151.2-34.4C486.416,287.274,496.016,275.274,496.016,261.674z"
+      />
+      <path
+        style={{ fill: "#BDC6C6" }}
+        d="M0.016,258.474c0,34.4,287.2,75.2,321.6,68.8c96.8-17.6,136-26.4,151.2-34.4 c14.4-6.4,23.2-18.4,23.2-31.2"
+      />
+      <path
+        style={{ fill: "#B1BABA" }}
+        d="M321.616,327.274c96.8-17.6,136-26.4,151.2-34.4c14.4-6.4,23.2-18.4,23.2-31.2"
+      />
+      <path
+        style={{ fill: "#BDC6C6" }}
+        d="M136.816,256.074h146.4c0,0,23.2,5.6,9.6,16s-30.4,18.4-30.4,18.4l-129.6-20.8L136.816,256.074z"
+      />
+      <path
+        style={{ fill: "#9BAAA9" }}
+        d="M136.816,256.074l80,11.2c0,0,89.6-6.4,76,4s-30.4,18.4-30.4,18.4l-129.6-20.8L136.816,256.074z"
+      />
+
+      {/* dots */}
+      <g>
+        <circle style={{ fill: "#44A3B2" }} cx="68.016" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="85.616" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="103.216" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="120.816" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="138.416" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="156.016" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="173.616" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="191.216" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="208.816" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="226.416" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="264.016" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="281.616" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="298.416" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="316.016" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="333.616" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="351.216" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="368.816" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="386.416" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="404.016" cy="248.074" r="4" />
+        <circle style={{ fill: "#44A3B2" }} cx="421.616" cy="248.074" r="4" />
+      </g>
+
+      <path
+        style={{ fill: "#C9D3D3" }}
+        d="M227.216,262.474c0,3.2-2.4,6.4-6.4,6.4h-88c-3.2,0-6.4-2.4-6.4-6.4l0,0c0-3.2,2.4-6.4,6.4-6.4h88 C224.016,256.074,227.216,259.274,227.216,262.474L227.216,262.474z"
+      />
+      <path
+        style={{ fill: "#DAE0E0" }}
+        d="M126.416,262.474L126.416,262.474c0-3.2,2.4-6.4,6.4-6.4h88c3.2,0,6.4,2.4,6.4,6.4l0,0"
+      />
+      <path
+        style={{ fill: "#44A3B2" }}
+        d="M468.816,228.874c-1.6-3.2-4-6.4-6.4-9.6h-16c-2.4,0-4.8,2.4-4.8,4.8c0,2.4,2.4,4.8,4.8,4.8h23.2 C469.616,229.674,469.616,228.874,468.816,228.874z"
+      />
+      <path
+        style={{ fill: "#B4C1C1" }}
+        d="M279.216,280.074c0,11.2-4.8,20-16,20s-69.6-8.8-69.6-20s58.4-12,69.6-12 C274.416,268.074,279.216,268.874,279.216,280.074z"
+      />
+      <path
+        style={{ fill: "#C9D3D3" }}
+        d="M279.216,280.074c0,11.2-4.8,20-16,20s-69.6-8.8-69.6-20"
+      />
+      <ellipse
+        style={{ fill: "#9BAAA9" }}
+        cx="274.416"
+        cy="280.074"
+        rx="2.4"
+        ry="8"
+      />
+      <path
+        style={{ fill: "#809391" }}
+        d="M274.416,288.074c0.8,0,2.4-3.2,2.4-8c0,0,0,0,0-0.8h-4.8c0,0,0,0,0,0.8 C272.016,284.874,273.616,288.074,274.416,288.074z"
+      />
+      <path
+        style={{ fill: "#C9D3D3" }}
+        d="M238.416,279.274c0,11.2-4.8,20-16,20s-69.6-8.8-69.6-20s58.4-12,69.6-12 S238.416,268.074,238.416,279.274z"
+      />
+      <path
+        style={{ fill: "#DAE0E0" }}
+        d="M238.416,279.274c0,11.2-4.8,20-16,20s-69.6-8.8-69.6-20"
+      />
+      <ellipse
+        style={{ fill: "#9BAAA9" }}
+        cx="233.616"
+        cy="279.274"
+        rx="2.4"
+        ry="8"
+      />
+      <path
+        style={{ fill: "#809391" }}
+        d="M233.616,287.274c0.8,0,2.4-3.2,2.4-8c0,0,0,0,0-0.8h-4c0,0,0,0,0,0.8 C231.216,284.074,232.016,287.274,233.616,287.274z"
+      />
+
+      {/* ============================= */}
+      {/*          BANNER               */}
+      {/* ============================= */}
+
       <g ref={bannerRef} transform="translate(0, 20)">
-        {/* Ribbon tail (curved line) */}
-        <path 
-          d="M0 0 Q-20 -10 -40 0 Q-60 10 -80 0" 
-          fill="none" 
-          stroke="#ff4444" 
-          strokeWidth="2" 
-          opacity="0.9" 
+        <path
+          d="M0 0 Q-20 -10 -40 0 Q-60 10 -80 0"
+          fill="none"
+          stroke="#ff4444"
+          strokeWidth="2"
+          opacity="0.9"
           strokeLinecap="round"
         />
-        {/* Banner box */}
-        <rect x="-50" y="-8" width="80" height="16" rx="4" fill="#ff4444" opacity="0.95" />
-        {/* Text: "I'm Hafiz" (adjust font if needed) */}
-        <text x="-30" y="4" fontFamily="Arial, sans-serif" fontSize="8" fill="#fff" textAnchor="middle" fontWeight="bold">
+        <rect
+          x="-50"
+          y="-8"
+          width="80"
+          height="16"
+          rx="4"
+          fill="#ff4444"
+          opacity="0.95"
+        />
+        <text
+          x="-30"
+          y="4"
+          fontFamily="Arial, sans-serif"
+          fontSize="8"
+          fill="#fff"
+          textAnchor="middle"
+          fontWeight="bold"
+        >
           I'm Hafiz
         </text>
-        {/* Little flag end */}
         <polygon points="-80,0 -90,-5 -90,5" fill="#ff4444" opacity="0.9" />
       </g>
     </g>

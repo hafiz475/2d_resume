@@ -67,14 +67,10 @@ export default function SkySVG({ initialScene = "afternoon" }) {
 
       {/* PLANES — NOW IN SKY LAYER, HIGH UP */}
       <g id="sky-planes" pointerEvents="all">
-        <g transform="translate(0, 80) scale(0.4)">     {/* ← High Y=80, small scale */}
-          <PlaneSmall />
-        </g>
-        <g transform="translate(-400, 60) scale(0.35)">  {/* ← Even higher, smaller */}
-          <AeroplaneBig />
-        </g>
+        <PlaneSmall y={80} scale={0.4} />
+        <AeroplaneBig x={-400} y={60} scale={0.35} />
       </g>
-      <SkyStoryOverlay />  {/* ← Overlay for sky stories */}
+      {/* <SkyStoryOverlay />  ← Overlay for sky stories */}
     </svg>
   );
 }

@@ -3,8 +3,20 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import SkySVG from "../components/SkySVG";
 import SeaScene from "../components/sea/SeaScene";
+import SkyStoryOverlay from "../components/air/SkyStoryOverlay";
 
-const SCENES = ["afternoon","sunset","night","sunrise","cloudy","raining","storm","rainbow","winter","night2"];
+const SCENES = [
+  "afternoon",
+  "sunset",
+  "night",
+  "sunrise",
+  "cloudy",
+  "raining",
+  "storm",
+  "rainbow",
+  "winter",
+  "night2",
+];
 
 export default function Scene2D() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -17,23 +29,32 @@ export default function Scene2D() {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
 
-    const newIdx = direction === "next"
-      ? (currentIdx + 1) % SCENES.length
-      : (currentIdx - 1 + SCENES.length) % SCENES.length;
+    const newIdx =
+      direction === "next"
+        ? (currentIdx + 1) % SCENES.length
+        : (currentIdx - 1 + SCENES.length) % SCENES.length;
 
     setNextIdx(newIdx);
 
-    gsap.fromTo(nextRef.current, { opacity: 0 }, {
-      opacity: 1, duration: 1.4, ease: "power2.inOut",
-      onComplete: () => {
-        setCurrentIdx(newIdx);
-        setNextIdx(newIdx);
-        isTransitioning.current = false;
+    gsap.fromTo(
+      nextRef.current,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 1.4,
+        ease: "power2.inOut",
+        onComplete: () => {
+          setCurrentIdx(newIdx);
+          setNextIdx(newIdx);
+          isTransitioning.current = false;
+        },
       }
-    });
+    );
 
     setTimeout(() => {
-      window.dispatchEvent(new CustomEvent("scene-change", { detail: { scene: SCENES[newIdx] } }));
+      window.dispatchEvent(
+        new CustomEvent("scene-change", { detail: { scene: SCENES[newIdx] } })
+      );
     }, 400);
   };
 
@@ -50,34 +71,64 @@ export default function Scene2D() {
   }, [currentIdx]);
 
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("scene-change", { detail: { scene: SCENES[currentIdx] } }));
+    window.dispatchEvent(
+      new CustomEvent("scene-change", { detail: { scene: SCENES[currentIdx] } })
+    );
   }, []);
 
   return (
-    <div className="scene-container" style={{ position: "relative", cursor: "ns-resize", overflow: "hidden" }}>
+    <div
+      className="scene-container"
+      style={{ position: "relative", cursor: "ns-resize", overflow: "hidden" }}
+    >
       {/* CURRENT SCENE — SKY FIRST, SEA SECOND */}
       <div ref={currentRef} style={{ position: "absolute", inset: 0 }}>
         <SkySVG initialScene={SCENES[currentIdx]} />
+        <SkyStoryOverlay />
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-  <SeaScene />
-</div>
+          <SeaScene />
+        </div>
       </div>
 
       {/* NEXT SCENE — SAME ORDER */}
       {currentIdx !== nextIdx && (
-        <div ref={nextRef} style={{ position: "absolute", inset: 0, opacity: 0 }}>
+        <div
+          ref={nextRef}
+          style={{ position: "absolute", inset: 0, opacity: 0 }}
+        >
           <SkySVG initialScene={SCENES[nextIdx]} />
-          <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-  <SeaScene />
-</div>
+          <div
+            style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+          >
+            <SeaScene />
+          </div>
         </div>
       )}
 
       {/* HUD — nice and small again */}
-      <div style={{ position: "absolute", left: 18, bottom: 20, zIndex: 50, pointerEvents: "none" }}>
-        <div style={{ background: "rgba(6,8,12,0.7)", padding: "10px 16px", borderRadius: "10px", boxShadow: "0 8px 30px rgba(0,0,0,0.6)" }}>
-          <strong style={{ fontSize: "16px", display: "block" }}>{SCENES[currentIdx].toUpperCase()}</strong>
-          <div style={{ fontSize: "13px", opacity: 0.9, marginTop: "4px" }}>Scroll slowly — cinematic time travel ✨</div>
+      <div
+        style={{
+          position: "absolute",
+          left: 18,
+          bottom: 20,
+          zIndex: 50,
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            background: "rgba(6,8,12,0.7)",
+            padding: "10px 16px",
+            borderRadius: "10px",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
+          }}
+        >
+          <strong style={{ fontSize: "16px", display: "block" }}>
+            {SCENES[currentIdx].toUpperCase()}
+          </strong>
+          <div style={{ fontSize: "13px", opacity: 0.9, marginTop: "4px" }}>
+            Scroll slowly — cinematic time travel ✨
+          </div>
         </div>
       </div>
     </div>

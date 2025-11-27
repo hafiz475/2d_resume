@@ -146,8 +146,9 @@ body,
 
 /* Ensure sky SVG allows overlays */
 .sky-svg foreignObject {
-  pointer-events: none;  /* Let overlay handle clicks */
+  pointer-events: visiblePainted;
 }
+
 
 @keyframes fadeInSky {
   from { 

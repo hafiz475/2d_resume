@@ -202,7 +202,7 @@
   </g>
 </svg>;
 
-//aeropolace
+//aeroplane big
 <svg
   height="157px"
   width="157px"
@@ -339,7 +339,7 @@
   </g>
 </svg>;
 
-//plane2 icon
+//planeSmall icon
 <svg
   height="64px"
   width="64px"

@@ -15,46 +15,90 @@ export function usePlaneAnimation(ref, type) {
 
   useEffect(() => {
     if (!ref.current) return;
-
     const el = ref.current;
 
-    // Gentle flight bob (less than ships)
-    gsap.to(el, { y: "+=3", duration: 4.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
-    gsap.to(el, { rotation: type === "A" ? "+=0.8" : "-=1.0", duration: 3.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
+    // --- Floating / bobbing + rotation (mirrors ship style) ---
+    gsap.to(el, { y: "+=8", duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" });
+    gsap.to(el, { rotation: type === "A" ? "+=1.2" : "-=1.4", duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut" });
+    // extra small bob for visual richness (ship had a second smaller bob too)
+    gsap.to(el, { y: "+=4", duration: 4.2, yoyo: true, repeat: -1, ease: "sine.inOut" });
 
-    // Horizontal glide (smoother for sky)
-    if (type === "A" || type === "E") {
-      tweens.current.main = gsap.timeline({ repeat: -1 })
-        .set(el, { x: -360 })
-        .to(el, { x: 1600, duration: type === "E" ? 18 : 28, ease: "power1.inOut" });  // Slight curve ease
-    } else if (type === "C") {
-      tweens.current.main = gsap.timeline({ repeat: -1 })
-        .set(el, { x: 1600 })
-        .to(el, { x: -700, duration: 22, ease: "power1.inOut" });
+    // --- Helper: compute offscreen start/end based on element bbox + window width ---
+    const computePositions = () => {
+      let elWidth = 200;
+      try {
+        const bbox = el.getBBox ? el.getBBox() : el.getBoundingClientRect();
+        elWidth = bbox.width || (bbox.right - bbox.left) || el.getBoundingClientRect().width || 200;
+      } catch (err) {
+        elWidth = el.getBoundingClientRect ? el.getBoundingClientRect().width : 200;
+      }
+      const pad = 120; // offscreen padding
+      return {
+        startLeft: -elWidth - pad,
+        endRight: window.innerWidth + elWidth + pad
+      };
+    };
+
+    // --- Create main horizontal glide (mirrors ship durations + linear ease) ---
+    const createMainTween = () => {
+      if (tweens.current.main) {
+        try { tweens.current.main.kill(); } catch (e) {}
+      }
+
+      const { startLeft, endRight } = computePositions();
+      // durations matched to ship: E -> 16, A -> 26, C -> 20 (C is right->left)
+      const dur = type === "E" ? 16 : type === "A" ? 26 : 20;
+
+      if (type === "A" || type === "E") {
+        tweens.current.main = gsap.timeline({ repeat: -1 })
+          .set(el, { x: startLeft })
+          .to(el, { x: endRight, duration: dur, ease: "linear" });
+      } else if (type === "C") {
+        // travel right -> left
+        const startRight = endRight;
+        const endLeft = startLeft;
+        tweens.current.main = gsap.timeline({ repeat: -1 })
+          .set(el, { x: startRight })
+          .to(el, { x: endLeft, duration: dur, ease: "linear" });
+      }
+    };
+
+    // initial create and resize handler
+    createMainTween();
+    const onResize = () => createMainTween();
+    window.addEventListener("resize", onResize);
+
+    // --- Optional smoke/lights logic (mirror ship behavior) ---
+    if (type === "C") {
+      const smoke = el.querySelector(".smoke");
+      if (smoke) {
+        gsap.to(smoke, { scale: 1.8, opacity: 0, duration: 1.8, repeat: -1, ease: "power1.out", repeatDelay: 0.4 });
+      }
     }
 
-    // Sky lights (stars? headlight glow)
-    const lights = el.querySelectorAll(".light");
+    const lights = el.querySelectorAll?.(".light") ?? [];
     const turnOnLights = () => gsap.to(lights, { opacity: 1, duration: 1 });
     const turnOffLights = () => gsap.to(lights, { opacity: 0, duration: 1 });
 
     const onScene = (e) => {
       const scene = e.detail?.scene;
-      if (scene?.includes("night") || scene === "sunset") turnOnLights();  // Planes glow at dusk/night
+      if (scene?.includes("night") || scene === "storm") turnOnLights();
       else turnOffLights();
     };
 
     window.addEventListener("scene-change", onScene);
-    return () => window.removeEventListener("scene-change", onScene);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("scene-change", onScene);
+      try { if (tweens.current.main) tweens.current.main.kill(); } catch (e) {}
+    };
   }, [ref, type]);
 }
 
 export function showSkyStory() {
   const story = skyStories[Math.floor(Math.random() * skyStories.length)];
   console.log("🛩️ Sky Story Triggered:", story);
-  if (window.setSkyStory) {  // ← Window check
-    window.setSkyStory({ text: story, visible: true });
-  } else {
-    console.error("🚨 window.setSkyStory missing — overlay not mounted!");
-  }
+  if (window.setSkyStory) window.setSkyStory({ text: story, visible: true });
+  else console.error("🚨 window.setSkyStory missing — overlay not mounted!");
 }
