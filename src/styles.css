@@ -38,16 +38,20 @@ body,
 }
 
 /* sand-svg reused as sea */
+/* styles.css — Update .sand-svg */
 .sand-svg {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 34vh;
-  min-height: 160px;
+  height: 38vh;             /* ← Fixed 38% */
+  min-height: 140px;        /* ← For small screens */
+  max-height: 38vh;         /* ← Never exceeds 38% */
   pointer-events: none;
-  margin-bottom: -2px;
+  margin-bottom: -1px;
+  overflow: visible;        /* ← Let ships peek if needed */
 }
+
 @media (max-width: 720px) {
   .sand-svg {
     height: 30vh;

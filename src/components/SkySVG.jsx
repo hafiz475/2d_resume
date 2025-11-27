@@ -1,7 +1,8 @@
-//src/components/SkySVG.jsx
-
+// src/components/SkySVG.jsx
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import PlaneSmall from "./air/PlaneSmall";   // ← Import planes here
+import AeroplaneBig from "./air/AeroplaneBig";
 
 const WIDTH = 1400;
 const HEIGHT = 720;
@@ -25,7 +26,6 @@ export default function SkySVG({ initialScene = "afternoon" }) {
   }, []);
 
   function applyScene(scene) {
-    // simple scene reactions: change sky color and sun position/opacities
     if (!skyRef.current) return;
     if (scene === "sunset") {
       gsap.to(skyRef.current, { fill: "#ffb07a", duration: 1.2 });
@@ -52,6 +52,8 @@ export default function SkySVG({ initialScene = "afternoon" }) {
       </defs>
       <rect ref={skyRef} x="0" y="0" width={WIDTH} height={HEIGHT} fill="#8ec5ff" />
       <rect ref={gradeRef} x="0" y="0" width={WIDTH} height={HEIGHT} fill="url(#gradeGrad)" style={{ mixBlendMode: "overlay", opacity: 0 }} />
+      
+      {/* CLOUDS */}
       <g ref={L1} className="cloud-layer" style={{ opacity: 0.9 }}>
         <ellipse cx="120" cy="96" rx="110" ry="28" fill="#fff" opacity="0.95" />
         <ellipse cx="420" cy="64" rx="80" ry="22" fill="#fff" opacity="0.9" />
@@ -60,6 +62,16 @@ export default function SkySVG({ initialScene = "afternoon" }) {
       <g ref={L2} className="cloud-layer" style={{ opacity: 0.9 }}>
         <ellipse cx="340" cy="140" rx="130" ry="36" fill="#fff" opacity="0.92" />
         <ellipse cx="760" cy="88" rx="76" ry="20" fill="#fff" opacity="0.9" />
+      </g>
+
+      {/* PLANES — NOW IN SKY LAYER, HIGH UP */}
+      <g id="sky-planes" pointerEvents="all">
+        <g transform="translate(0, 80) scale(0.4)">     {/* ← High Y=80, small scale */}
+          <PlaneSmall />
+        </g>
+        <g transform="translate(-400, 60) scale(0.35)">  {/* ← Even higher, smaller */}
+          <AeroplaneBig />
+        </g>
       </g>
     </svg>
   );

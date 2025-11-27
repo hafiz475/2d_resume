@@ -58,14 +58,18 @@ export default function Scene2D() {
       {/* CURRENT SCENE — SKY FIRST, SEA SECOND */}
       <div ref={currentRef} style={{ position: "absolute", inset: 0 }}>
         <SkySVG initialScene={SCENES[currentIdx]} />
-        <SeaScene />
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+  <SeaScene />
+</div>
       </div>
 
       {/* NEXT SCENE — SAME ORDER */}
       {currentIdx !== nextIdx && (
         <div ref={nextRef} style={{ position: "absolute", inset: 0, opacity: 0 }}>
           <SkySVG initialScene={SCENES[nextIdx]} />
-          <SeaScene />
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+  <SeaScene />
+</div>
         </div>
       )}
 

@@ -20,7 +20,8 @@ export function useShipAnimation(ref, type) {
 
     // Common floating bob
     gsap.to(el, { y: "+=8", duration: 3.8, yoyo: true, repeat: -1, ease: "sine.inOut" });
-    gsap.to(el, { rotation: type === "A" ? "+=2.6" : "-=2.8", duration: 2.8, yoyo: true, repeat: -1, ease: "sine.inOut" });
+    gsap.to(el, { rotation: type === "A" ? "+=1.2" : "-=1.4", duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut" });  // ← gentler tilt
+    gsap.to(el, { y: "+=4", duration: 4.2, yoyo: true, repeat: -1, ease: "sine.inOut" });  // ← smaller bob
 
     // Horizontal movement
     if (type === "A" || type === "E") {

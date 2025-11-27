@@ -1,36 +1,42 @@
 // src/components/sea/Waves.jsx
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { gsap } from "gsap";
 
 export default function Waves() {
-  const wavesRef = useRef();
+  const wave1 = React.useRef();
+  const wave2 = React.useRef();
+  const wave3 = React.useRef();
 
-  useEffect(() => {
-    if (!wavesRef.current || wavesRef.current.children.length > 0) return;
-
-    const createWave = (y, amp = 8, speed = 6, opacity = 0.12, width = 1.2) => {
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      const d = `M-600 ${y} C-480 ${y-amp} -360 ${y+amp} -240 ${y} S-120 ${y-amp} 0 ${y} S120 ${y+amp} 240 ${y} S360 ${y-amp} 480 ${y} S600 ${y+amp} 720 ${y} S840 ${y-amp} 960 ${y}`;
-      path.setAttribute("d", d);
-      path.setAttribute("stroke", "rgba(255,255,255,0.12)");
-      path.setAttribute("stroke-width", width);
-      path.setAttribute("fill", "none");
-      path.style.opacity = opacity;
-      wavesRef.current.appendChild(path);
-
-      gsap.to(path, {
-        x: 60,
-        duration: speed + Math.random() * 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-    };
-
-    createWave(110, 8, 6.0, 0.22, 1.4);
-    createWave(126, 6, 5.0, 0.14, 1.2);
-    createWave(142, 4, 7.2, 0.10, 1.0);
+  React.useEffect(() => {
+    gsap.to(wave1.current, { x: 80, duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(wave2.current, { x: 60, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(wave3.current, { x: 100, duration: 7.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
   }, []);
 
-  return <g ref={wavesRef} id="waves-layer" pointerEvents="none" />;
+  return (
+    <g id="waves-layer" pointerEvents="none">
+      <path
+        ref={wave1}
+        d="M-600 110 C-480 102 -360 118 -240 110 S-120 102 0 110 S120 118 240 110 S360 102 480 110 S600 118 720 110 S840 102 960 110"
+        fill="none"
+        stroke="rgba(255,255,255,0.22)"
+        strokeWidth="1.2"
+        opacity="0.8"
+      />
+      <path
+        ref={wave2}
+        d="M-600 126 C-480 120 -360 132 -240 126 S-120 120 0 126 S120 132 240 126 S360 120 480 126 S600 132 720 126 S840 120 960 126"
+        fill="none"
+        stroke="rgba(255,255,255,0.14)"
+        strokeWidth="1.0"
+      />
+      <path
+        Ballsref={wave3}
+        d="M-600 142 C-480 138 -360 146 -240 142 S-120 138 0 142 S120 146 240 142 S360 138 480 142 S600 146 720 142 S840 138 960 142"
+        fill="none"
+        stroke="rgba(255,255,255,0.10)"
+        strokeWidth="0.8"
+      />
+    </g>
+  );
 }
