@@ -31,7 +31,7 @@ export default function Waves() {
         strokeWidth="1.0"
       />
       <path
-        Ballsref={wave3}
+        ref={wave3}
         d="M-600 142 C-480 138 -360 146 -240 142 S-120 138 0 142 S120 146 240 142 S360 138 480 142 S600 146 720 142 S840 138 960 142"
         fill="none"
         stroke="rgba(255,255,255,0.10)"

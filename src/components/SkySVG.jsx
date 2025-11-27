@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import PlaneSmall from "./air/PlaneSmall";   // ← Import planes here
 import AeroplaneBig from "./air/AeroplaneBig";
+import SkyStoryOverlay from "./air/SkyStoryOverlay";
 
 const WIDTH = 1400;
 const HEIGHT = 720;
@@ -73,6 +74,7 @@ export default function SkySVG({ initialScene = "afternoon" }) {
           <AeroplaneBig />
         </g>
       </g>
+      <SkyStoryOverlay />  {/* ← Overlay for sky stories */}
     </svg>
   );
 }

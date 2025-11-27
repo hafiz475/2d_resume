@@ -28,13 +28,23 @@ body,
   overflow: hidden;
 }
 
-/* svg fills whole viewport */
+/* styles.css */
 .sky-svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
+  pointer-events: all;  /* ← NEW: Allow clicks in sky (planes) */
+}
+
+#sky-planes {
+  pointer-events: all;  /* ← Ensure plane group catches clicks */
+}
+
+/* Hide sea pointer-events when sky is active (optional) */
+.scene-container .sand-svg {
+  pointer-events: none;  /* Sea always passive, sky takes clicks */
 }
 
 /* sand-svg reused as sea */
@@ -131,4 +141,15 @@ body,
     min-width: 200px;
     max-width: 92vw;
   }
+}
+
+/* styles.css */
+.sky-info-overlay {
+  z-index: 9999 !important;  /* ← Nuclear option: always on top */
+  position: fixed !important;  /* Full screen, ignores SVG bounds */
+}
+
+/* Ensure sky SVG allows overlays */
+.sky-svg foreignObject {
+  pointer-events: none;  /* Let overlay handle clicks */
 }
