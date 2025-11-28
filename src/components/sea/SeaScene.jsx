@@ -10,6 +10,7 @@ import PirateShip from "./ships/PirateShip";
 import Tugboat from "./ships/Tugboat";
 import GhostShip from "./ships/GhostShip";
 import ShipStoryOverlay from "./ships/ShipStoryOverlay";
+import CargoShip from "./ships/CargoShip";
 // import ShipStoryOverlay from "./ShipStoryOverlay";
 
 export default function SeaScene() {
@@ -43,7 +44,7 @@ export default function SeaScene() {
       {/* SEA LAYER — Ships only, no planes */}
       <g id="ships" pointerEvents="all">
         <g transform="translate(-100, 90) scale(0.4)">
-          <Tugboat />
+          <CargoShip />
         </g>
         <g transform="translate(200, 70) scale(0.45)">
           <Titanic />

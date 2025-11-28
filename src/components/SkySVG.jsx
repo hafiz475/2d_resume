@@ -1,7 +1,7 @@
 // src/components/SkySVG.jsx
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import PlaneSmall from "./air/PlaneSmall";   // ← Import planes here
+import PlaneSmall from "./air/PlaneSmall"; // ← Import planes here
 import AeroplaneBig from "./air/AeroplaneBig";
 import SkyStoryOverlay from "./air/SkyStoryOverlay";
 
@@ -44,16 +44,35 @@ export default function SkySVG({ initialScene = "afternoon" }) {
   }
 
   return (
-    <svg className="sky-svg" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="xMidYMid slice">
+    <svg
+      className="sky-svg"
+      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      preserveAspectRatio="xMidYMid slice"
+    >
       <defs>
         <linearGradient id="gradeGrad" x1="0" x2="1">
           <stop offset="0%" stopColor="#ffb57d" />
           <stop offset="100%" stopColor="#6fc2ff" />
         </linearGradient>
       </defs>
-      <rect ref={skyRef} x="0" y="0" width={WIDTH} height={HEIGHT} fill="#8ec5ff" />
-      <rect ref={gradeRef} x="0" y="0" width={WIDTH} height={HEIGHT} fill="url(#gradeGrad)" style={{ mixBlendMode: "overlay", opacity: 0 }} />
-      
+      <rect
+        ref={skyRef}
+        x="0"
+        y="0"
+        width={WIDTH}
+        height={HEIGHT}
+        fill="#8ec5ff"
+      />
+      <rect
+        ref={gradeRef}
+        x="0"
+        y="0"
+        width={WIDTH}
+        height={HEIGHT}
+        fill="url(#gradeGrad)"
+        style={{ mixBlendMode: "overlay", opacity: 0 }}
+      />
+
       {/* CLOUDS */}
       <g ref={L1} className="cloud-layer" style={{ opacity: 0.9 }}>
         <ellipse cx="120" cy="96" rx="110" ry="28" fill="#fff" opacity="0.95" />
@@ -61,14 +80,21 @@ export default function SkySVG({ initialScene = "afternoon" }) {
         <ellipse cx="860" cy="120" rx="94" ry="26" fill="#fff" opacity="0.92" />
       </g>
       <g ref={L2} className="cloud-layer" style={{ opacity: 0.9 }}>
-        <ellipse cx="340" cy="140" rx="130" ry="36" fill="#fff" opacity="0.92" />
+        <ellipse
+          cx="340"
+          cy="140"
+          rx="130"
+          ry="36"
+          fill="#fff"
+          opacity="0.92"
+        />
         <ellipse cx="760" cy="88" rx="76" ry="20" fill="#fff" opacity="0.9" />
       </g>
 
       {/* PLANES — NOW IN SKY LAYER, HIGH UP */}
       <g id="sky-planes" pointerEvents="all">
-        <PlaneSmall y={80} scale={0.4} />
-        <AeroplaneBig x={-400} y={60} scale={0.35} />
+        <PlaneSmall y={80} scale={0.15} />
+        <AeroplaneBig x={-400} y={60} scale={0.13} />
       </g>
       {/* <SkyStoryOverlay />  ← Overlay for sky stories */}
     </svg>
