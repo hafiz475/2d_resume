@@ -85,7 +85,7 @@ export default function Scene2D() {
       <div ref={currentRef} style={{ position: "absolute", inset: 0 }}>
         <SkySVG initialScene={SCENES[currentIdx]} />
         <SkyStoryOverlay />
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+        <div style={{ position: "absolute", inset: 0 }}>
           <SeaScene />
         </div>
       </div>
@@ -98,7 +98,7 @@ export default function Scene2D() {
         >
           <SkySVG initialScene={SCENES[nextIdx]} />
           <div
-            style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+            style={{ position: "absolute", inset: 0 }}
           >
             <SeaScene />
           </div>

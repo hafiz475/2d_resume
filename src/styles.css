@@ -1,6 +1,7 @@
 /* src/styles.css */
 .scene-container {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 L16 8 M16 24 L16 30 M8 8 L24 24 M24 8 L8 24' stroke='%23ffffff' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E"), auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 L16 8 M16 24 L16 30 M8 8 L24 24 M24 8 L8 24' stroke='%23ffffff' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E"),
+    auto;
 }
 
 :root {
@@ -35,31 +36,37 @@ body,
   width: 100%;
   height: 100%;
   display: block;
-  pointer-events: all;  /* ← NEW: Allow clicks in sky (planes) */
+  pointer-events: all; /* ← NEW: Allow clicks in sky (planes) */
 }
 
 #sky-planes {
-  pointer-events: all;  /* ← Ensure plane group catches clicks */
+  pointer-events: all; /* ← Ensure plane group catches clicks */
 }
 
 /* Hide sea pointer-events when sky is active (optional) */
 .scene-container .sand-svg {
-  pointer-events: none;  /* Sea always passive, sky takes clicks */
+  pointer-events: none; /* Sea always passive, sky takes clicks */
 }
 
-/* sand-svg reused as sea */
-/* styles.css — Update .sand-svg */
+/* FINAL SEA AREA (correct scaling) */
 .sand-svg {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 38vh;             /* ← Fixed 38% */
-  min-height: 140px;        /* ← For small screens */
-  max-height: 38vh;         /* ← Never exceeds 38% */
+
+  /* Keep the sea at the correct height on screen */
+  height: 42vh;
+  min-height: 160px;
+  max-height: 42vh;
+
+  overflow: visible;
   pointer-events: none;
-  margin-bottom: -1px;
-  overflow: visible;        /* ← Let ships peek if needed */
+}
+
+/* Ships can be clicked */
+#ships {
+  pointer-events: all;
 }
 
 @media (max-width: 720px) {
@@ -127,10 +134,17 @@ body,
   font-family: Inter, system-ui;
 }
 
-/* small touch: make ships clickable (pointer-events enabled for ships only) */
-#ships {
-  pointer-events: auto;
+/* softer reflection look */
+#ships g g {
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
+
+
+/* small touch: make ships clickable (pointer-events enabled for ships only) */
+/* #ships {
+  pointer-events: auto;
+} */
 
 /* make sure overlay button looks good on mobile */
 @media (max-width: 720px) {
@@ -143,25 +157,23 @@ body,
   }
 }
 
-
 /* Ensure sky SVG allows overlays */
 .sky-svg foreignObject {
   pointer-events: visiblePainted;
 }
 
-
 @keyframes fadeInSky {
-  from { 
-    opacity: 0; 
-    transform: translate(-50%, -50%) scale(0.95); 
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
   }
-  to { 
-    opacity: 1; 
-    transform: translate(-50%, -50%) scale(1); 
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
 .sky-info-overlay {
-  z-index: 10001 !important;  /* Nuclear z-index */
-  animation: fadeInSky 0.4s ease-out;  /* Pop in */
+  z-index: 10001 !important; /* Nuclear z-index */
+  animation: fadeInSky 0.4s ease-out; /* Pop in */
 }
